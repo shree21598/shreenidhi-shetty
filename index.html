@@ -1,0 +1,827 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="AI/ML Engineer building production RAG, multi-agent systems and MLOps.">
+<meta property="og:title" content="Shreenidhi Shetty">
+<meta property="og:description" content="AI/ML Engineer building production RAG, multi-agent systems and MLOps.">
+<meta property="og:type" content="website">
+<title>Shreenidhi Shetty</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Onest:wght@400;500;600&family=Unbounded:wght@500;600;700&display=swap">
+<style>
+/* Layout: the portfolio as one agent run. Live console hero, telemetry readouts, career drawn as a trace waterfall, builds drawn as node graphs. */
+:root{
+  --bg:#F4F5FC; --surface:#FFFFFF; --surface-2:#ECEEF9; --ink:#15172E; --muted:#575B7D; --line:#D9DCEE;
+  --pop:#E8358A; --pop-soft:#FFD9EA; --volt:#3B4CF0; --volt-soft:#E0E3FF; --sun:#FFC53D; --ok:#0F9A66;
+  --shadow:0 1px 0 rgba(21,23,46,.04), 0 18px 40px -22px rgba(21,23,46,.35);
+  --font-display:"Unbounded","Arial Black",system-ui,sans-serif;
+  --font-body:"Onest",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --radius:24px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D0F22; --surface:#15183A; --surface-2:#1D2148; --ink:#EEF0FF; --muted:#A4A9D2; --line:#2A2F5E;
+    --pop:#FF5AA8; --pop-soft:#4A1C3D; --volt:#8E9BFF; --volt-soft:#252B68; --sun:#FFD15C; --ok:#3ED89C;
+    --shadow:0 1px 0 rgba(0,0,0,.25), 0 18px 40px -20px rgba(0,0,0,.75);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D0F22; --surface:#15183A; --surface-2:#1D2148; --ink:#EEF0FF; --muted:#A4A9D2; --line:#2A2F5E;
+  --pop:#FF5AA8; --pop-soft:#4A1C3D; --volt:#8E9BFF; --volt-soft:#252B68; --sun:#FFD15C; --ok:#3ED89C;
+  --shadow:0 1px 0 rgba(0,0,0,.25), 0 18px 40px -20px rgba(0,0,0,.75);
+  color-scheme:dark;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.6;padding-inline:16px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1160px;margin-inline:auto}
+a{color:inherit}
+.mono{font-family:var(--font-mono)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:2.5px solid var(--volt);outline-offset:3px;border-radius:10px}
+h1,h2,h3{text-wrap:balance}
+
+/* ---------- nav ---------- */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;margin-inline:-16px;padding:10px 16px;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid color-mix(in srgb,var(--line) 70%,transparent)}
+.nav .wrap{display:flex;align-items:center;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:600;white-space:nowrap}
+.mono-bubble{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--pop);color:var(--surface);font-family:var(--font-display);font-weight:700;font-size:.95rem;box-shadow:inset -4px -5px 0 rgba(0,0,0,.12)}
+.nav-links{display:flex;gap:4px;margin-left:auto;overflow-x:auto;scrollbar-width:none;min-width:0}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-links a{text-decoration:none;font-size:.9rem;font-weight:500;color:var(--muted);padding:6px 12px;border-radius:999px;white-space:nowrap;transition:background .2s,color .2s}
+.nav-links a:hover{background:var(--surface-2);color:var(--ink)}
+.nav-links a.hi{background:var(--ink);color:var(--bg)}
+@media (max-width:640px){.brand .brand-name{display:none}}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;gap:8px;font:600 .95rem/1 var(--font-body);padding:13px 20px;border-radius:999px;border:1.5px solid var(--ink);cursor:pointer;text-decoration:none;transition:transform .15s ease,box-shadow .15s ease}
+.btn-primary{background:var(--ink);color:var(--bg);box-shadow:0 4px 0 var(--pop)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 0 var(--pop)}
+.btn-primary:active{transform:translateY(2px);box-shadow:0 1px 0 var(--pop)}
+.btn-ghost{background:transparent;color:var(--ink)}
+.btn-ghost:hover{background:var(--surface-2)}
+
+/* ---------- section scaffolding ---------- */
+section{padding-block:80px 8px;scroll-margin-top:72px}
+.eyebrow{font-family:var(--font-mono);font-size:.8rem;letter-spacing:.04em;color:var(--volt);margin:0}
+.eyebrow b{color:var(--pop);font-weight:500;margin-right:6px}
+h2{font-family:var(--font-display);font-weight:600;font-size:clamp(1.5rem,3.1vw,2.25rem);line-height:1.15;letter-spacing:-.01em;margin:.4em 0 .35em}
+.lede{color:var(--muted);max-width:62ch;margin:0 0 28px;font-size:1.05rem}
+.card{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--radius)}
+.lift{box-shadow:var(--shadow)}
+
+/* ---------- hero ---------- */
+.hero{position:relative;padding-block:44px 40px}
+#bubbles{position:absolute;inset:0;width:100%;height:100%;z-index:0;display:block}
+.hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:44px;align-items:center;pointer-events:none}
+.hero-grid>*{pointer-events:auto}
+.hello-pill{display:inline-flex;align-items:center;gap:8px;margin:0;padding:6px 14px 6px 10px;border-radius:999px;background:var(--surface);border:1.5px solid var(--line);font-size:.88rem;font-weight:500}
+.hello-pill .dot{width:9px;height:9px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 4px color-mix(in srgb,var(--ok) 22%,transparent)}
+h1{font-family:var(--font-display);font-weight:700;font-size:clamp(2.2rem,5.3vw,4rem);line-height:1.04;letter-spacing:-.025em;margin:.38em 0 .4em}
+h1 .name{background:linear-gradient(180deg,transparent 58%,var(--pop-soft) 58%,var(--pop-soft) 92%,transparent 92%);-webkit-box-decoration-break:clone;box-decoration-break:clone;padding-inline:.04em}
+h1 .dotpop{color:var(--pop)}
+.hero-lede{font-size:clamp(1.05rem,1.6vw,1.2rem);max-width:46ch;margin:0 0 10px}
+.hero-sub{font-family:var(--font-mono);font-size:.88rem;color:var(--muted);margin:0 0 28px}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.pop-hint{font-family:var(--font-mono);font-size:.78rem;color:var(--muted);margin:26px 0 0;display:flex;align-items:center;gap:8px}
+.pop-hint::before{content:"";width:12px;height:12px;border-radius:50%;border:1.5px solid var(--pop);background:var(--pop-soft)}
+
+/* ---------- console ---------- */
+.console{padding:18px;display:flex;flex-direction:column;gap:14px;scroll-margin-top:84px;min-width:0}
+.console-head{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:.85rem}
+.console-head .who{font-family:var(--font-mono);font-weight:500}
+.console-head .who span{color:var(--muted);font-weight:400}
+.state{display:inline-flex;align-items:center;gap:7px;font-family:var(--font-mono);font-size:.75rem;padding:4px 10px;border-radius:999px;background:var(--surface-2);color:var(--muted)}
+.state i{width:8px;height:8px;border-radius:50%;background:var(--ok)}
+.state.running i{background:var(--pop);animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.6);opacity:.5}}
+.log{height:236px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:4px 2px;overscroll-behavior:contain}
+.msg{max-width:88%;padding:11px 15px;border-radius:20px;font-size:.95rem;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}
+.msg.user{align-self:flex-end;background:var(--pop-soft);border-bottom-right-radius:6px;font-weight:500}
+.msg.bot{align-self:flex-start;background:var(--surface-2);border-bottom-left-radius:6px}
+.msg.bot.thinking{color:var(--muted);font-family:var(--font-mono);font-size:.85rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:500 .82rem/1 var(--font-body);padding:8px 12px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;transition:border-color .15s,transform .15s,background .15s}
+.chip:hover{border-color:var(--volt);background:var(--volt-soft);transform:translateY(-1px) rotate(-1deg)}
+.chip:disabled{opacity:.5;cursor:default;transform:none}
+.ask{display:flex;gap:8px}
+.ask input{flex:1;min-width:0;font:400 .95rem var(--font-body);padding:12px 16px;border-radius:999px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink)}
+.ask input::placeholder{color:var(--muted)}
+.ask input:focus{outline:none;border-color:var(--volt)}
+.ask button{font:600 .9rem var(--font-body);padding:0 20px;border-radius:999px;border:0;background:var(--volt);color:var(--surface);cursor:pointer}
+.ask button:disabled{opacity:.5;cursor:default}
+.trace{border-top:1.5px dashed var(--line);padding-top:12px;font-family:var(--font-mono);font-size:.74rem;display:flex;flex-direction:column;gap:7px}
+.trace-head{display:flex;justify-content:space-between;gap:8px;color:var(--muted)}
+.trace-head b{color:var(--ink);font-weight:500}
+.span-row,.hit-row{display:grid;grid-template-columns:104px minmax(0,1fr) 62px;gap:10px;align-items:center}
+.span-name,.hit-src{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.span-track,.hit-bar{position:relative;height:10px;border-radius:6px;background:var(--surface-2);overflow:hidden}
+.span-track i{position:absolute;top:0;bottom:0;border-radius:6px}
+.span-track i.c0{background:var(--sun)}.span-track i.c1{background:var(--volt)}.span-track i.c2{background:var(--ok)}.span-track i.c3{background:var(--pop)}
+.hit-bar i{position:absolute;left:0;top:0;bottom:0;border-radius:6px;background:color-mix(in srgb,var(--volt) 55%,var(--surface-2))}
+.span-ms,.hit-score{text-align:right;font-variant-numeric:tabular-nums;color:var(--muted)}
+.trace-sub{color:var(--muted);margin-top:4px}
+.console-note{font-size:.8rem;color:var(--muted);margin:0;line-height:1.5}
+
+/* ---------- metrics ---------- */
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.tile{padding:22px 22px 20px;display:flex;flex-direction:column;gap:8px;transition:transform .2s ease,border-color .2s}
+.tile:hover{transform:translateY(-3px) rotate(-.4deg);border-color:var(--volt)}
+.metric{font-family:var(--font-mono);font-size:.78rem;color:var(--volt);margin:0}
+.val{font-family:var(--font-display);font-weight:600;font-size:clamp(2rem,3.6vw,2.6rem);line-height:1;margin:6px 0 4px;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.val .unit{font-size:.45em;color:var(--muted);font-weight:500;margin-left:4px;letter-spacing:0}
+.tile .desc{margin:0;color:var(--muted);font-size:.95rem;line-height:1.5}
+.tile .src{margin:auto 0 0;padding-top:10px;font-family:var(--font-mono);font-size:.72rem;color:var(--muted);display:flex;align-items:center;gap:6px}
+.tile .src::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--pop)}
+.tile .src.tcs::before{background:var(--volt)}
+@media (max-width:860px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.tiles{grid-template-columns:minmax(0,1fr)}}
+
+/* ---------- career waterfall ---------- */
+.wf{padding:20px 20px 12px}
+.wf-axis,.wf-row{display:grid;grid-template-columns:236px minmax(0,1fr);gap:18px;align-items:center}
+.ticks{position:relative;height:20px;font-family:var(--font-mono);font-size:.72rem;color:var(--muted)}
+.ticks span{position:absolute;top:0;transform:translateX(-50%);font-variant-numeric:tabular-nums}
+.ticks span:first-child{transform:none}
+.ticks span:last-child{transform:translateX(-100%)}
+.wf-row{width:100%;text-align:left;background:transparent;border:0;color:inherit;font:inherit;padding:12px 10px;margin-inline:-10px;width:calc(100% + 20px);border-radius:16px;cursor:pointer;transition:background .15s}
+.wf-row:hover{background:var(--surface-2)}
+.wf-row[aria-pressed="true"]{background:var(--surface-2)}
+.wf-label{display:flex;flex-direction:column;gap:2px;min-width:0}
+.wf-label .mono{font-size:.85rem;font-weight:500;overflow-wrap:anywhere}
+.wf-meta{font-size:.82rem;color:var(--muted)}
+.wf-track{position:relative;height:26px;border-radius:8px;background-image:repeating-linear-gradient(to right,var(--line) 0 1px,transparent 1px 14.2857%)}
+.bar{position:absolute;top:4px;bottom:4px;border-radius:9px}
+.bar.tcs{background:var(--volt)}.bar.iu{background:var(--sun)}.bar.nfcu{background:var(--pop)}
+.bar.live::after{content:"";position:absolute;right:-5px;top:50%;width:12px;height:12px;margin-top:-6px;border-radius:50%;background:var(--pop);border:2.5px solid var(--surface);animation:pulse 1.6s ease-in-out infinite}
+.diamond{position:absolute;top:50%;width:14px;height:14px;margin:-7px 0 0 -7px;background:var(--sun);border:2px solid var(--ink);transform:rotate(45deg);border-radius:3px}
+.wf-detail{margin-top:10px;border-top:1.5px dashed var(--line);padding:22px 4px 10px}
+.wf-detail h3{font-family:var(--font-display);font-weight:600;font-size:1.2rem;margin:0}
+.wf-detail .role{margin:4px 0 14px;color:var(--muted);font-size:.95rem}
+.wf-detail ul{margin:0;padding:0;list-style:none;display:grid;gap:10px;max-width:84ch}
+.wf-detail li{position:relative;padding-left:22px}
+.wf-detail li::before{content:"";position:absolute;left:2px;top:.58em;width:9px;height:9px;border-radius:50%;border:2px solid var(--pop)}
+.wf-detail strong{font-weight:600}
+@media (max-width:760px){
+  .wf-axis{grid-template-columns:minmax(0,1fr)}
+  .wf-axis>span:first-child{display:none}
+  .wf-row{grid-template-columns:minmax(0,1fr);gap:8px}
+}
+
+/* ---------- builds ---------- */
+.builds{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.build{padding:24px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.build.featured{grid-column:1/-1}
+.tag{font-family:var(--font-mono);font-size:.76rem;color:var(--volt);margin:0}
+.build h3{font-family:var(--font-display);font-weight:600;font-size:1.3rem;line-height:1.2;margin:0}
+.build p{margin:0;max-width:68ch}
+.build-top{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:28px;align-items:start}
+.build-top>div{display:flex;flex-direction:column;gap:10px}
+.stack{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px;align-content:flex-start}
+.stack li{font-size:.84rem;font-weight:500;padding:6px 12px;border-radius:999px;background:var(--surface-2);border:1.5px solid transparent;transition:transform .15s,border-color .15s}
+.stack li:hover{transform:rotate(-2deg) scale(1.04);border-color:var(--pop)}
+.flow{display:flex;align-items:center;gap:10px;margin-top:10px;padding:18px;border-radius:18px;background:var(--bg);border:1.5px dashed var(--line);overflow-x:auto}
+.node{flex:1 1 0;min-width:0;padding:12px 14px;border-radius:16px;background:var(--surface);border:1.5px solid var(--line);font-weight:600;font-size:.92rem;line-height:1.3;display:flex;flex-direction:column;gap:4px}
+.node small{font-family:var(--font-mono);font-weight:400;font-size:.72rem;color:var(--muted)}
+.node.accent{border-color:var(--pop);background:var(--pop-soft)}
+.node.out{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.node.out small{color:color-mix(in srgb,var(--bg) 70%,var(--ink))}
+.fan{flex:1.2 1 0;min-width:0;display:grid;gap:8px}
+.arrow{font-family:var(--font-mono);color:var(--pop);font-weight:500;flex:0 0 auto}
+.flow-cap{font-family:var(--font-mono);font-size:.72rem;color:var(--muted);margin:0}
+.facts{margin:6px 0 0;display:grid}
+.facts div{display:grid;grid-template-columns:110px minmax(0,1fr);gap:12px;padding:10px 0;border-top:1.5px dashed var(--line)}
+.facts dt{font-family:var(--font-mono);font-size:.78rem;color:var(--muted);padding-top:2px}
+.facts dd{margin:0;font-size:.95rem}
+@media (max-width:900px){
+  .build-top{grid-template-columns:minmax(0,1fr);gap:16px}
+  .flow{flex-direction:column;align-items:stretch}
+  .arrow{align-self:center;transform:rotate(90deg)}
+  .fan{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:760px){.builds{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:440px){.fan{grid-template-columns:minmax(0,1fr)}.facts div{grid-template-columns:minmax(0,1fr);gap:2px}}
+
+/* ---------- toolbelt ---------- */
+.belt{padding:6px 22px}
+.belt-row{display:grid;grid-template-columns:210px minmax(0,1fr);gap:18px;padding:18px 0;border-top:1.5px dashed var(--line)}
+.belt-row:first-child{border-top:0}
+.belt-row h3{font-family:var(--font-mono);font-weight:500;font-size:.82rem;color:var(--volt);margin:6px 0 0}
+.creds{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:16px}
+.cred{padding:22px;display:flex;flex-direction:column;gap:10px}
+.cred h3{font-family:var(--font-mono);font-weight:500;font-size:.82rem;color:var(--volt);margin:0}
+.cred ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.cred li{display:flex;gap:10px;align-items:baseline}
+.cred li::before{content:"";flex:0 0 9px;height:9px;border-radius:50%;background:var(--sun);transform:translateY(-1px)}
+.cred .sub{color:var(--muted);font-size:.9rem}
+@media (max-width:700px){.belt-row{grid-template-columns:minmax(0,1fr);gap:10px}.creds{grid-template-columns:minmax(0,1fr)}}
+
+/* ---------- contact ---------- */
+.contact{padding-block:96px 40px}
+.contact h2{font-size:clamp(1.8rem,4.6vw,3.4rem);max-width:18ch;line-height:1.08}
+.contact h2 em{font-style:normal;color:var(--pop)}
+.contact-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:24px}
+.email-box{display:flex;align-items:center;gap:6px;padding:6px 6px 6px 18px;border-radius:999px;background:var(--surface);border:1.5px solid var(--line);min-width:0;max-width:100%}
+.email-box span{font-family:var(--font-mono);font-size:.95rem;user-select:all;overflow-wrap:anywhere;min-width:0}
+.email-box .btn{padding:10px 16px}
+footer{padding-block:28px 40px;border-top:1.5px dashed var(--line);margin-top:56px;font-size:.85rem;color:var(--muted);display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
+footer .mono{font-size:.78rem}
+
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-weight:600;font-size:.9rem;z-index:30;box-shadow:0 4px 0 var(--pop)}
+
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:minmax(0,1fr);gap:32px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+}
+body{margin:0}[hidden]{display:none!important}img{max-width:100%}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Shreenidhi Shetty, back to top"><span class="mono-bubble" aria-hidden="true">S</span><span class="brand-name">Shreenidhi Shetty</span></a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#agent">Agent</a>
+      <a href="#impact">Impact</a>
+      <a href="#career">Career</a>
+      <a href="#builds">Builds</a>
+      <a href="#toolbelt">Toolbelt</a>
+      <a href="#hi" class="hi">Say hi</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="top">
+
+  <!-- ===== HERO ===== -->
+  <div class="hero" id="hero">
+    <canvas id="bubbles" aria-hidden="true"></canvas>
+    <div class="hero-grid">
+      <div>
+        <p class="hello-pill"><span class="dot" aria-hidden="true"></span>AI/ML Engineer at Navy Federal Credit Union</p>
+        <h1>Hi, I'm <span class="name">Shreenidhi</span><span class="dotpop">.</span></h1>
+        <p class="hero-lede">I take AI agents, RAG pipelines and ML models out of the notebook and into production. Then I wire up the traces and alerts that keep them healthy.</p>
+        <p class="hero-sub">bubbly in meetings · picky about p95 latency</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#builds">See what I've built</a>
+          <button class="btn btn-ghost" id="hero-copy" type="button">Copy my email</button>
+        </div>
+        <p class="pop-hint" id="pop-hint">psst, the bubbles pop</p>
+      </div>
+
+      <div class="console card lift" id="agent">
+        <div class="console-head">
+          <div class="who">shree-agent <span>· runs in your browser</span></div>
+          <span class="state" id="agent-state"><i aria-hidden="true"></i><span id="state-text">ready</span></span>
+        </div>
+        <div class="log" id="log" aria-live="polite">
+          <div class="msg user">What do you build?</div>
+          <div class="msg bot">Production GenAI. RAG platforms, LangGraph multi-agent workflows, and the MLOps plumbing underneath. At Navy Federal I run the virtual assistant's RAG platform (about 10,000 requests a month) and I led delivery of an AI platform for credit card disputes.</div>
+        </div>
+        <div class="chips" id="chips">
+          <button class="chip" type="button" data-q="What do you build?">What do you build?</button>
+          <button class="chip" type="button" data-q="What's your biggest win?">Biggest win?</button>
+          <button class="chip" type="button" data-q="How do you keep AI reliable?">Keeping AI reliable</button>
+          <button class="chip" type="button" data-q="What's your MLOps experience?">MLOps</button>
+          <button class="chip" type="button" data-q="Which clouds do you use?">Which clouds?</button>
+          <button class="chip" type="button" data-q="Tell me a fun fact">Fun fact</button>
+        </div>
+        <form class="ask" id="ask-form" autocomplete="off">
+          <label for="ask-input" class="sr">Ask my agent a question</label>
+          <input id="ask-input" name="q" type="text" maxlength="160" placeholder="Ask about RAG, agents, Databricks…">
+          <button type="submit" id="ask-btn">Ask</button>
+        </form>
+        <div class="trace" id="trace">
+          <div class="trace-head"><span><b id="run-id">run_0001</b> · last trace</span><span id="run-total">4 spans</span></div>
+          <div id="spans"></div>
+          <div class="trace-sub" id="hits-label">retrieved chunks</div>
+          <div id="hits"></div>
+        </div>
+        <p class="console-note">There's no LLM in here. A small BM25 retriever searches 21 chunks of my resume, and the trace above shows real timings from your browser. The preset questions use answers I wrote; anything you type gets answered straight from the retrieved chunks.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== METRICS ===== -->
+  <section id="impact" aria-labelledby="impact-h">
+    <p class="eyebrow"><b>GET</b>/metrics</p>
+    <h2 id="impact-h">Numbers from systems I've shipped</h2>
+    <p class="lede">Every one of these came from production, measured with the same tracing and dashboards I set up to watch them.</p>
+    <div class="tiles">
+      <article class="tile card">
+        <p class="metric">va_rag.requests</p>
+        <p class="val">~10k<span class="unit">/ month</span></p>
+        <p class="desc">User requests to the enterprise virtual assistant's RAG platform, answered from 1,500 documents and 15,000 searchable chunks.</p>
+        <p class="src">Navy Federal</p>
+      </article>
+      <article class="tile card">
+        <p class="metric">rag.inference_throughput</p>
+        <p class="val">1.8×</p>
+        <p class="desc">Faster inference after tuning retrieval and generation, guided by LangSmith traces, Application Insights and custom KQL.</p>
+        <p class="src">Navy Federal</p>
+      </article>
+      <article class="tile card">
+        <p class="metric">rag.cost_per_request</p>
+        <p class="val">−22%</p>
+        <p class="desc">Lower cost per request from the same optimization pass. Faster and cheaper, at the same time.</p>
+        <p class="src">Navy Federal</p>
+      </article>
+      <article class="tile card">
+        <p class="metric">mlops.models_managed</p>
+        <p class="val">120+</p>
+        <p class="desc">Models across fraud, marketing, savings and member engagement with automated retraining, validation, deployment and drift monitoring.</p>
+        <p class="src">Navy Federal</p>
+      </article>
+      <article class="tile card">
+        <p class="metric">workshops.attendees</p>
+        <p class="val">350+</p>
+        <p class="desc">Engineers and product managers I've taught to ship agentic AI, using reusable agent modules built from real deployment problems.</p>
+        <p class="src">Navy Federal</p>
+      </article>
+      <article class="tile card">
+        <p class="metric">credit_risk.accuracy</p>
+        <p class="val">86<span class="unit">% from 79%</span></p>
+        <p class="desc">Default prediction accuracy for XGBoost credit risk models trained on 38M+ records for CIBC's lending platform.</p>
+        <p class="src tcs">TCS · client CIBC</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== CAREER TRACE ===== -->
+  <section id="career" aria-labelledby="career-h">
+    <p class="eyebrow"><b>GET</b>/traces/career</p>
+    <h2 id="career-h">My career, rendered as a trace</h2>
+    <p class="lede">Each span is a role, drawn to scale from 2020 to today. Tap one to open its details.</p>
+    <div class="wf card">
+      <div class="wf-axis" aria-hidden="true">
+        <span></span>
+        <div class="ticks"><span style="left:0">2020</span><span style="left:14.2857%">2021</span><span style="left:28.5714%">2022</span><span style="left:42.8571%">2023</span><span style="left:57.1429%">2024</span><span style="left:71.4286%">2025</span><span style="left:85.7143%">2026</span><span style="left:100%">2027</span></div>
+      </div>
+      <button class="wf-row" type="button" data-role="tcs" aria-pressed="false">
+        <span class="wf-label"><span class="mono">tcs.system_engineer</span><span class="wf-meta">Jun 2020 → Jul 2022 · 2y 2mo</span></span>
+        <span class="wf-track"><span class="bar tcs" style="left:5.952%;width:30.952%"></span></span>
+      </button>
+      <button class="wf-row" type="button" data-role="iu" aria-pressed="false">
+        <span class="wf-label"><span class="mono">iu.associate_instructor</span><span class="wf-meta">Aug 2023 → May 2024 · 10mo</span></span>
+        <span class="wf-track"><span class="bar iu" style="left:51.190%;width:11.905%"></span></span>
+      </button>
+      <button class="wf-row" type="button" data-role="ms" aria-pressed="false">
+        <span class="wf-label"><span class="mono">ms_data_science.graduated</span><span class="wf-meta">Indiana University · May 2024</span></span>
+        <span class="wf-track"><span class="diamond" style="left:62.5%"></span></span>
+      </button>
+      <button class="wf-row" type="button" data-role="nfcu" aria-pressed="true">
+        <span class="wf-label"><span class="mono">nfcu.ai_ml_engineer</span><span class="wf-meta">Sep 2024 → now · 2y 2mo · live</span></span>
+        <span class="wf-track"><span class="bar nfcu live" style="left:66.667%;width:30.952%"></span></span>
+      </button>
+      <div class="wf-detail" id="wf-detail" aria-live="polite">
+        <h3>Navy Federal Credit Union</h3>
+        <p class="role">AI/ML Engineer · Sep 2024 to present · Vienna, VA</p>
+        <ul>
+          <li>Led technical discovery and production delivery of an <strong>AI platform for credit card disputes</strong> on Azure Functions, Blob Storage and Cosmos DB, with 3 enterprise integrations and 9 production alerts routed to ServiceNow.</li>
+          <li>Productionized the <strong>virtual assistant's RAG platform</strong> on Azure AI Search and Azure OpenAI, serving about 10,000 requests a month across 5 service domains.</li>
+          <li><strong>Tuned RAG retrieval and generation</strong> with LangSmith traces, Application Insights and KQL, which raised throughput 1.8× and cut cost per request 22%. Added 6 Azure Monitor alerts on top.</li>
+          <li>Built <strong>MLOps workflows for 120+ models</strong> across fraud, marketing, savings and member engagement, with automated retraining, drift monitoring and champion/challenger evaluation.</li>
+          <li>Moved about 90 models into <strong>Databricks Unity Catalog</strong> and registered about 80 in MLflow for lineage and reproducible deployments.</li>
+          <li>Turned recurring deployment problems into <strong>reusable agent modules</strong> and taught them in workshops for 350+ engineers and product managers.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BUILDS ===== -->
+  <section id="builds" aria-labelledby="builds-h">
+    <p class="eyebrow"><b>GET</b>/builds</p>
+    <h2 id="builds-h">Things I've built</h2>
+    <p class="lede">One side project where I got to play with every new agent toy on GCP, and two production systems that real people use every day.</p>
+    <div class="builds">
+      <article class="build featured card lift">
+        <div class="build-top">
+          <div>
+            <p class="tag">side project · Google Cloud</p>
+            <h3>Agentic Financial Advisor</h3>
+            <p>A multi-agent financial advisor on GCP. It calls tools over the Model Context Protocol and runs RAG across structured and unstructured financial data, so every piece of guidance is grounded in something it actually retrieved.</p>
+          </div>
+          <ul class="stack" aria-label="Stack">
+            <li>Vertex AI</li><li>Gemini API</li><li>Google ADK</li><li>LangGraph</li><li>MCP</li><li>RAG</li>
+          </ul>
+        </div>
+        <div class="flow" role="img" aria-label="Simplified flow: a user question goes to agent orchestration, which runs RAG retrieval and MCP tool calls, then Gemini on Vertex AI produces grounded guidance.">
+          <div class="node">User question<small>"Am I saving enough?"</small></div>
+          <span class="arrow" aria-hidden="true">→</span>
+          <div class="node accent">Agent orchestration<small>LangGraph · Google ADK</small></div>
+          <span class="arrow" aria-hidden="true">→</span>
+          <div class="fan">
+            <div class="node">RAG retrieval<small>structured + unstructured data</small></div>
+            <div class="node">MCP tool calls<small>tool calling</small></div>
+          </div>
+          <span class="arrow" aria-hidden="true">→</span>
+          <div class="node">Gemini<small>on Vertex AI</small></div>
+          <span class="arrow" aria-hidden="true">→</span>
+          <div class="node out">Grounded guidance<small>cites what it retrieved</small></div>
+        </div>
+        <p class="flow-cap">simplified flow</p>
+      </article>
+
+      <article class="build card">
+        <p class="tag">@ Navy Federal · production</p>
+        <h3>Credit card disputes AI platform</h3>
+        <p>I led this one from the first technical discovery sessions all the way to production.</p>
+        <dl class="facts">
+          <div><dt>runtime</dt><dd>Python workflows on Azure Functions</dd></div>
+          <div><dt>state</dt><dd>Blob Storage · Cosmos DB</dd></div>
+          <div><dt>integrations</dt><dd>3 enterprise systems</dd></div>
+          <div><dt>alerting</dt><dd>9 production alerts across 7 control areas</dd></div>
+          <div><dt>on-call</dt><dd>Automatic ServiceNow routing for reliability, AI quality and safety</dd></div>
+        </dl>
+      </article>
+
+      <article class="build card">
+        <p class="tag">@ Navy Federal · production</p>
+        <h3>Virtual assistant RAG platform</h3>
+        <p>I productionized the retrieval platform behind the enterprise virtual assistant, then made it faster and cheaper.</p>
+        <dl class="facts">
+          <div><dt>retrieval</dt><dd>Azure AI Search · Azure OpenAI</dd></div>
+          <div><dt>footprint</dt><dd>2 Function Apps · 5 service domains</dd></div>
+          <div><dt>corpus</dt><dd>1,500 documents → 15,000 chunks</dd></div>
+          <div><dt>traffic</dt><dd>About 10,000 requests a month</dd></div>
+          <div><dt>alerting</dt><dd>6 Azure Monitor alerts (2 Sev0, 4 Sev1)</dd></div>
+        </dl>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== TOOLBELT ===== -->
+  <section id="toolbelt" aria-labelledby="toolbelt-h">
+    <p class="eyebrow"><b>GET</b>/toolbelt</p>
+    <h2 id="toolbelt-h">What's in my toolbelt</h2>
+    <p class="lede">The stack I reach for, grouped the way I think about it when I'm designing a system.</p>
+    <div class="belt card">
+      <div class="belt-row">
+        <h3>genai_and_agents</h3>
+        <ul class="stack"><li>RAG</li><li>Multi-agent orchestration</li><li>Vector search</li><li>Embedding retrieval</li><li>Tool calling</li><li>ReAct</li><li>Hierarchical delegation</li><li>Agent state management</li></ul>
+      </div>
+      <div class="belt-row">
+        <h3>frameworks_and_apis</h3>
+        <ul class="stack"><li>LangGraph</li><li>Google ADK</li><li>LangChain</li><li>CrewAI</li><li>Model Context Protocol</li><li>Gemini API</li></ul>
+      </div>
+      <div class="belt-row">
+        <h3>cloud_and_mlops</h3>
+        <ul class="stack"><li>Azure AI Foundry</li><li>Azure OpenAI</li><li>Azure AI Search</li><li>Azure ML</li><li>Databricks</li><li>Vertex AI</li><li>BigQuery</li><li>Cloud Storage</li><li>SageMaker</li><li>Lambda</li><li>S3</li><li>Docker</li><li>Kubernetes</li><li>Terraform</li><li>Airflow</li><li>Delta Lake</li><li>CI/CD</li></ul>
+      </div>
+      <div class="belt-row">
+        <h3>eval_and_observability</h3>
+        <ul class="stack"><li>LLM evaluation</li><li>Benchmarking</li><li>LangSmith</li><li>MLflow</li><li>OpenTelemetry</li><li>Distributed tracing</li><li>Token throughput</li><li>Cost per request</li><li>p95 latency</li><li>Drift detection</li></ul>
+      </div>
+      <div class="belt-row">
+        <h3>languages</h3>
+        <ul class="stack"><li>Python</li><li>PySpark</li><li>SQL</li><li>Java</li><li>C++</li><li>R</li><li>KQL</li></ul>
+      </div>
+    </div>
+    <div class="creds">
+      <div class="cred card">
+        <h3>certifications</h3>
+        <ul>
+          <li><span>Microsoft Certified: Azure AI Fundamentals <span class="sub">(AI-901)</span></span></li>
+          <li><span>Microsoft Certified: Azure Fundamentals <span class="sub">(AZ-900)</span></span></li>
+          <li><span>Generative AI with Databricks</span></li>
+        </ul>
+      </div>
+      <div class="cred card">
+        <h3>education</h3>
+        <ul>
+          <li><span>M.S. in Data Science, Indiana University Bloomington <span class="sub">· May 2024</span></span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT ===== -->
+  <section id="hi" class="contact" aria-labelledby="hi-h">
+    <p class="eyebrow"><b>POST</b>/hello</p>
+    <h2 id="hi-h">Got an agent that needs to <em>actually ship?</em> Let's talk.</h2>
+    <p class="lede">I'm always happy to nerd out about RAG evals, agent architectures, or why your p95 just doubled.</p>
+    <div class="contact-row">
+      <div class="email-box"><span id="email">sshreenidhi674@gmail.com</span><button class="btn btn-primary" id="copy-email" type="button">Copy</button></div>
+      <a class="btn btn-ghost" href="https://github.com/shree21598" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Shreenidhi Vishwanath Shetty</span>
+    <span class="mono">hand-written HTML · a tiny BM25 retriever · a little bubble physics</span>
+  </footer>
+</main>
+
+<div class="toast" id="toast" role="status" hidden>Copied</div>
+
+<script>
+(function(){
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = (s, r=document) => r.querySelector(s);
+
+  /* ---------------- toast + copy ---------------- */
+  const toast = $('#toast'); let toastT;
+  function showToast(msg){ toast.textContent = msg; toast.hidden = false; clearTimeout(toastT); toastT = setTimeout(()=>{ toast.hidden = true; }, 1800); }
+  const EMAIL = 'sshreenidhi674@gmail.com';
+  function selectEmail(){ const el = $('#email'); const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+  function copyEmail(){
+    try{
+      navigator.clipboard.writeText(EMAIL).then(()=>showToast('Email copied')).catch(()=>{ selectEmail(); showToast('Selected, press copy'); });
+    }catch(e){ selectEmail(); showToast('Selected, press copy'); }
+  }
+  $('#copy-email').addEventListener('click', copyEmail);
+  $('#hero-copy').addEventListener('click', copyEmail);
+
+  /* ---------------- retrieval corpus ---------------- */
+  const CHUNKS = [
+    {id:'nfcu.disputes', t:'Led technical discovery and production delivery of an AI platform for credit card disputes, built as Python workflows on Azure Functions with Blob Storage, Cosmos DB and 3 enterprise integrations.', k:'build built platform disputes credit card azure functions cosmos project hire'},
+    {id:'nfcu.disputes_alerts', t:'Set up 9 production alerts across 7 control areas on the disputes platform, with automated ServiceNow incident routing for reliability, AI quality and safety.', k:'reliable reliability monitoring alert observability safety quality incident servicenow'},
+    {id:'nfcu.va_rag', t:'Productionized the enterprise virtual assistant’s RAG platform on Azure AI Search and Azure OpenAI: 2 Function Apps, 5 service domains, about 10,000 requests a month over 1,500 documents and 15,000 chunks.', k:'rag retrieval chatbot assistant build search vector production'},
+    {id:'nfcu.rag_opt', t:'Optimized RAG retrieval and generation for 1.8× inference throughput and 22% lower cost per request, guided by LangSmith traces, Application Insights and custom KQL.', k:'biggest win impact performance cost latency throughput optimize optimization proud hire'},
+    {id:'nfcu.rag_alerts', t:'Configured 6 Azure Monitor production alerts (2 Sev0, 4 Sev1) for execution failures, service degradation and latency on the RAG platform.', k:'reliable alert monitoring observability latency oncall'},
+    {id:'nfcu.mlops', t:'Engineered MLOps workflows for 120+ models across fraud, marketing, savings and member engagement, automating retraining, validation, deployment and drift monitoring with champion/challenger evaluation.', k:'mlops model pipeline drift retraining experience deployment'},
+    {id:'nfcu.governance', t:'Migrated about 90 models to Databricks Unity Catalog and registered about 80 in MLflow, strengthening lineage, version control and deployment reproducibility.', k:'mlops governance databricks mlflow unity catalog lineage'},
+    {id:'nfcu.workshops', t:'Packaged recurring deployment challenges into reusable agent modules and ran workshops for 350+ engineers and product managers to speed up production adoption of agentic AI.', k:'teach teaching workshop agent agentic fun fact community mentor'},
+    {id:'project.advisor', t:'Agentic Financial Advisor: a multi-agent system on GCP using Vertex AI, Gemini, Google ADK and LangGraph, with MCP tool calling and RAG over structured and unstructured financial data for grounded guidance.', k:'project side agent multi gcp google build langgraph adk gemini mcp'},
+    {id:'tcs.credit_risk', t:'At TCS for client CIBC, deployed XGBoost credit risk models on 38M+ records, improving default prediction accuracy from 79% to 86%.', k:'ml machine learning banking bank cibc tcs xgboost win model'},
+    {id:'tcs.azure_migration', t:'Migrated 50+ ML workloads to Azure with automated retraining pipelines and A/B testing frameworks, establishing the team’s MLOps foundations.', k:'mlops azure migration cloud tcs'},
+    {id:'tcs.prefunding', t:'Built a prefunding analytics module in Python, Java and Hibernate ORM that automated credit assessments and cut loan approval time by 15%.', k:'java build banking loan tcs'},
+    {id:'tcs.apis', t:'Optimized REST APIs and ETL pipelines in Python and Oracle SQL, reducing data retrieval latency by 20% and enabling real time model inference.', k:'api sql latency data engineering etl tcs backend'},
+    {id:'iu.teaching', t:'As a Graduate Associate Instructor at Indiana University, co-designed INFO-I399 Data Science with Python and guided 100+ students through it with a 92% satisfaction rating.', k:'teach teaching fun fact student python university'},
+    {id:'edu.ms', t:'M.S. in Data Science from Indiana University Bloomington, May 2024.', k:'education degree school master university study graduate'},
+    {id:'skills.genai', t:'GenAI and agents: RAG, multi-agent orchestration, vector search, embedding retrieval, tool calling, ReAct, hierarchical delegation and agent state management. Frameworks: LangGraph, Google ADK, LangChain, CrewAI, MCP and the Gemini API.', k:'skill stack agent framework tool langchain crewai'},
+    {id:'skills.cloud', t:'Cloud: Azure (AI Foundry, Azure ML, Databricks, Azure OpenAI, AI Search), GCP (Vertex AI, BigQuery, Cloud Storage) and AWS (SageMaker, Lambda, S3), plus Docker, Kubernetes, Terraform, Airflow, Delta Lake and CI/CD.', k:'which cloud skill stack infra infrastructure aws gcp azure kubernetes'},
+    {id:'skills.observability', t:'Evaluation and observability: LLM evaluation, benchmarking, LangSmith, MLflow, OpenTelemetry, distributed tracing, token throughput, cost per request, p95 latency and drift detection.', k:'evaluation eval observability tracing reliable monitoring'},
+    {id:'skills.languages', t:'Languages: Python, PySpark, SQL, Java, C++, R and KQL.', k:'language programming code skill'},
+    {id:'certs', t:'Certifications: Microsoft Azure AI Fundamentals (AI-901), Microsoft Azure Fundamentals (AZ-900), and Generative AI with Databricks.', k:'certification certified certificate azure databricks'},
+    {id:'contact', t:'The best way to reach me is email at sshreenidhi674@gmail.com, and my code lives on GitHub at github.com/shree21598.', k:'contact email reach hire github talk connect'}
+  ];
+
+  const PRESETS = {
+    'what do you build': 'Production GenAI. RAG platforms, LangGraph multi-agent workflows, and the MLOps plumbing underneath. At Navy Federal I run the virtual assistant’s RAG platform (about 10,000 requests a month) and I led delivery of an AI platform for credit card disputes.',
+    'whats your biggest win': 'Making our RAG platform faster and cheaper at the same time. I dug through LangSmith traces, Application Insights and a lot of custom KQL, then pushed inference throughput up 1.8× and cut cost per request by 22%.',
+    'how do you keep ai reliable': 'Observability first, always. The disputes platform has 9 production alerts across 7 control areas that route straight to ServiceNow, covering reliability, AI quality and safety. The RAG platform has 6 Azure Monitor alerts (2 Sev0, 4 Sev1) for failures, degradation and latency.',
+    'whats your mlops experience': '120+ models across fraud, marketing, savings and member engagement, with automated retraining, validation, deployment and drift monitoring using champion/challenger evaluation. I also moved about 90 models into Databricks Unity Catalog and registered about 80 in MLflow.',
+    'which clouds do you use': 'All three! Azure day to day (AI Foundry, Azure OpenAI, AI Search, Functions, Databricks), GCP for agent work (Vertex AI, Gemini, ADK, BigQuery), and AWS (SageMaker, Lambda, S3). Plus Docker, Kubernetes, Terraform and Airflow.',
+    'tell me a fun fact': 'I really love teaching. I co-designed a Python data science course at Indiana University for 100+ students (92% satisfaction), and at Navy Federal I’ve run agentic AI workshops for 350+ engineers and PMs. Explaining things is almost as fun as building them.'
+  };
+
+  /* ---------------- tiny BM25 ---------------- */
+  const STOP = new Set('a an the is are am do does did you your yours i me my mine what whats how which who whom to of in on for and or with about tell can could have has had at it its that this be been any some so from as by was were we us our there their they them please would should into than then also just like know'.split(' '));
+  function tok(s){
+    return (s.toLowerCase().replace(/[’']/g,'').match(/[a-z0-9]+/g) || [])
+      .filter(w => !STOP.has(w))
+      .map(w => (w.length > 3 && w.endsWith('s') && !w.endsWith('ss')) ? w.slice(0,-1) : w);
+  }
+  const DOCS = CHUNKS.map(c => tok(c.t + ' ' + c.k + ' ' + c.id.replace(/[._]/g,' ')));
+  const N = DOCS.length;
+  const AVG = DOCS.reduce((a,d)=>a+d.length,0) / N;
+  const DF = new Map();
+  DOCS.forEach(d => new Set(d).forEach(w => DF.set(w, (DF.get(w)||0)+1)));
+  function bm25(qTerms, k=3){
+    const k1 = 1.2, b = 0.75;
+    const scored = DOCS.map((d, i) => {
+      let s = 0;
+      const tf = new Map(); d.forEach(w => tf.set(w, (tf.get(w)||0)+1));
+      new Set(qTerms).forEach(q => {
+        const f = tf.get(q); if(!f) return;
+        const df = DF.get(q) || 0;
+        const idf = Math.log(1 + (N - df + 0.5) / (df + 0.5));
+        s += idf * (f * (k1 + 1)) / (f + k1 * (1 - b + b * d.length / AVG));
+      });
+      return {i, s};
+    }).filter(x => x.s > 0).sort((a,b)=>b.s-a.s).slice(0,k);
+    return scored.map(x => ({id: CHUNKS[x.i].id, text: CHUNKS[x.i].t, score: x.s}));
+  }
+  const norm = s => s.toLowerCase().replace(/[’']/g,'').replace(/[^a-z0-9 ]+/g,' ').replace(/\s+/g,' ').trim();
+
+  /* ---------------- console UI ---------------- */
+  const log = $('#log'), form = $('#ask-form'), input = $('#ask-input'), askBtn = $('#ask-btn');
+  const stateEl = $('#agent-state'), stateText = $('#state-text');
+  const chips = [...document.querySelectorAll('.chip')];
+  let busy = false, runCount = 0;
+
+  function fmt(ms){ return ms < 1 ? ms.toFixed(2)+' ms' : ms < 10 ? ms.toFixed(1)+' ms' : Math.round(ms)+' ms'; }
+  function setBusy(v){
+    busy = v; chips.forEach(c => c.disabled = v); askBtn.disabled = v;
+    stateEl.classList.toggle('running', v); stateText.textContent = v ? 'running' : 'ready';
+  }
+  function addMsg(cls, text){
+    const d = document.createElement('div'); d.className = 'msg ' + cls; d.textContent = text; log.appendChild(d);
+    while(log.children.length > 10) log.removeChild(log.firstChild);
+    log.scrollTop = log.scrollHeight; return d;
+  }
+  function renderTrace(spans, hits, words){
+    runCount++;
+    const id = (runCount).toString(16).padStart(4,'0');
+    $('#run-id').textContent = 'run_' + id;
+    const total = spans.reduce((a,s)=>a+s.ms,0);
+    $('#run-total').textContent = spans.length + ' spans · ' + fmt(total);
+    const sp = $('#spans'); sp.innerHTML = '';
+    let off = 0;
+    spans.forEach((s, i) => {
+      const left = total ? off/total*100 : 0, w = total ? s.ms/total*100 : 0; off += s.ms;
+      const row = document.createElement('div'); row.className = 'span-row';
+      row.innerHTML = '<span class="span-name"></span><span class="span-track"><i class="c'+i+'" style="left:'+Math.min(left,97).toFixed(2)+'%;width:max(3px,'+w.toFixed(2)+'%)"></i></span><span class="span-ms"></span>';
+      row.children[0].textContent = s.name; row.children[2].textContent = fmt(s.ms);
+      sp.appendChild(row);
+    });
+    $('#hits-label').textContent = hits.length
+      ? 'retrieved ' + hits.length + ' of ' + N + ' chunks · ' + words + ' tokens out'
+      : 'no chunks matched · ' + words + ' tokens out';
+    const hEl = $('#hits'); hEl.innerHTML = '';
+    const max = hits.length ? hits[0].score : 1;
+    hits.forEach(h => {
+      const row = document.createElement('div'); row.className = 'hit-row';
+      row.innerHTML = '<span class="hit-src"></span><span class="hit-bar"><i style="width:'+(h.score/max*100).toFixed(1)+'%"></i></span><span class="hit-score"></span>';
+      row.children[0].textContent = h.id; row.children[0].title = h.id; row.children[2].textContent = h.score.toFixed(2);
+      hEl.appendChild(row);
+    });
+  }
+  function compose(q, hits){
+    const preset = PRESETS[norm(q)];
+    if(preset) return preset;
+    if(!hits.length) return 'Hmm, nothing in my notes matches that one. Try asking about RAG, agents, MLOps, Databricks, or where I’ve worked.';
+    const top = hits.slice(0,2).map(h => h.text);
+    return 'Here’s what I found in my notes. ' + top.join(' ');
+  }
+  function stream(el, text, instant){
+    return new Promise(res => {
+      if(instant || reduce){ el.textContent = text; log.scrollTop = log.scrollHeight; return res(); }
+      const parts = text.split(/(\s+)/); let i = 0; el.textContent = ''; el.classList.remove('thinking');
+      (function step(){
+        if(i >= parts.length) return res();
+        el.textContent += parts[i++] + (parts[i] || ''); i++;
+        log.scrollTop = log.scrollHeight;
+        setTimeout(step, 26);
+      })();
+    });
+  }
+  async function run(q, instant){
+    q = q.trim(); if(!q || busy) return;
+    setBusy(true);
+    addMsg('user', q);
+    const bot = addMsg('bot thinking', instant ? '' : 'retrieving…');
+    const t0 = performance.now();
+    const terms = tok(q);
+    const t1 = performance.now();
+    const hits = bm25(terms, 3);
+    const t2 = performance.now();
+    const answer = compose(q, hits);
+    const t3 = performance.now();
+    if(!instant && !reduce) await new Promise(r => setTimeout(r, 260));
+    bot.classList.remove('thinking');
+    const t3b = performance.now();
+    await stream(bot, answer, instant);
+    const t4 = performance.now();
+    const words = (answer.match(/\S+/g) || []).length;
+    renderTrace([
+      {name:'tokenize', ms:t1-t0},
+      {name:'retrieve.bm25', ms:t2-t1},
+      {name:'compose', ms:(t3-t2) + (t3b-t3)},
+      {name:'stream', ms:t4-t3b}
+    ], hits, words);
+    setBusy(false);
+  }
+  chips.forEach(c => c.addEventListener('click', () => run(c.dataset.q)));
+  form.addEventListener('submit', e => { e.preventDefault(); const q = input.value; input.value = ''; run(q); });
+
+  // Seed the console with a real first run so the trace is populated at rest.
+  log.innerHTML = '';
+  run('What do you build?', true);
+
+  /* ---------------- career trace ---------------- */
+  const ROLES = {
+    tcs: {h:'Tata Consultancy Services', r:'System Engineer · client: CIBC · Jun 2020 to Jul 2022 · Mumbai, India', b:[
+      'Deployed <strong>XGBoost credit risk models</strong> on 38M+ records for CIBC’s lending platform, lifting default prediction accuracy from 79% to 86%.',
+      'Migrated <strong>50+ ML workloads to Azure</strong> with automated retraining and A/B testing, which became the team’s MLOps foundation.',
+      'Built a <strong>prefunding analytics module</strong> in Python, Java and Hibernate ORM that automated credit assessments and cut loan approval time 15%.',
+      'Optimized <strong>REST APIs and ETL pipelines</strong> in Python and Oracle SQL, cutting data retrieval latency 20% and enabling real time inference for secured loans.'
+    ]},
+    iu: {h:'Indiana University Bloomington', r:'Graduate Associate Instructor · Aug 2023 to May 2024 · Bloomington, IN', b:[
+      'Co-designed the coursework for <strong>INFO-I399 Data Science with Python</strong>, covering machine learning and data modelling.',
+      'Guided <strong>100+ students</strong> through the material, finishing with a 92% satisfaction rating.'
+    ]},
+    ms: {h:'Indiana University Bloomington', r:'Master of Science in Data Science · Graduated May 2024', b:[
+      'Earned an <strong>M.S. in Data Science</strong> from Indiana University Bloomington.'
+    ]},
+    nfcu: {h:'Navy Federal Credit Union', r:'AI/ML Engineer · Sep 2024 to present · Vienna, VA', b:[
+      'Led technical discovery and production delivery of an <strong>AI platform for credit card disputes</strong> on Azure Functions, Blob Storage and Cosmos DB, with 3 enterprise integrations and 9 production alerts routed to ServiceNow.',
+      'Productionized the <strong>virtual assistant’s RAG platform</strong> on Azure AI Search and Azure OpenAI, serving about 10,000 requests a month across 5 service domains.',
+      '<strong>Tuned RAG retrieval and generation</strong> with LangSmith traces, Application Insights and KQL, which raised throughput 1.8× and cut cost per request 22%. Added 6 Azure Monitor alerts on top.',
+      'Built <strong>MLOps workflows for 120+ models</strong> across fraud, marketing, savings and member engagement, with automated retraining, drift monitoring and champion/challenger evaluation.',
+      'Moved about 90 models into <strong>Databricks Unity Catalog</strong> and registered about 80 in MLflow for lineage and reproducible deployments.',
+      'Turned recurring deployment problems into <strong>reusable agent modules</strong> and taught them in workshops for 350+ engineers and product managers.'
+    ]}
+  };
+  const rows = [...document.querySelectorAll('.wf-row')];
+  const detail = $('#wf-detail');
+  rows.forEach(r => r.addEventListener('click', () => {
+    rows.forEach(x => x.setAttribute('aria-pressed', x === r ? 'true' : 'false'));
+    const d = ROLES[r.dataset.role];
+    detail.innerHTML = '<h3></h3><p class="role"></p><ul>' + d.b.map(x => '<li>'+x+'</li>').join('') + '</ul>';
+    detail.querySelector('h3').textContent = d.h;
+    detail.querySelector('.role').textContent = d.r;
+  }));
+
+  /* ---------------- bubbles ---------------- */
+  const hero = $('#hero'), cv = $('#bubbles'), ctx = cv.getContext('2d');
+  const hint = $('#pop-hint');
+  let W = 0, H = 0, bubbles = [], rings = [], colors = {}, popped = 0, running = false, visible = true, last = 0;
+  function readColors(){
+    const cs = getComputedStyle(document.documentElement);
+    colors = { pop: cs.getPropertyValue('--pop').trim(), volt: cs.getPropertyValue('--volt').trim(), sun: cs.getPropertyValue('--sun').trim() };
+    if(reduce) draw();
+  }
+  const KEYS = ['pop','volt','sun','pop','volt'];
+  function spawn(b, init){
+    b.r = 8 + Math.random()*30;
+    b.x = Math.random()*W;
+    b.y = init ? Math.random()*H : H + b.r + Math.random()*80;
+    b.vy = 10 + Math.random()*22;
+    b.ph = Math.random()*Math.PI*2;
+    b.c = KEYS[(Math.random()*KEYS.length)|0];
+    return b;
+  }
+  function size(){
+    const r = hero.getBoundingClientRect(); const dpr = Math.min(2, window.devicePixelRatio || 1);
+    const first = !W;
+    W = r.width; H = r.height;
+    cv.width = Math.round(W*dpr); cv.height = Math.round(H*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    const n = Math.max(8, Math.min(22, Math.round(W*H/30000)));
+    while(bubbles.length < n) bubbles.push(spawn({}, true));
+    bubbles.length = n;
+    if(!first) bubbles.forEach(b => { if(b.x > W) b.x = Math.random()*W; });
+    draw();
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    const t = performance.now()/1000;
+    bubbles.forEach(b => {
+      const x = b.x + Math.sin(t*0.8 + b.ph)*6, c = colors[b.c] || '#E8358A';
+      ctx.beginPath(); ctx.arc(x, b.y, b.r, 0, Math.PI*2);
+      ctx.globalAlpha = .13; ctx.fillStyle = c; ctx.fill();
+      ctx.globalAlpha = .55; ctx.lineWidth = 1.5; ctx.strokeStyle = c; ctx.stroke();
+      ctx.beginPath(); ctx.arc(x - b.r*.38, b.y - b.r*.38, Math.max(1.5, b.r*.16), 0, Math.PI*2);
+      ctx.globalAlpha = .65; ctx.fillStyle = '#ffffff'; ctx.fill();
+      b.dx = x;
+    });
+    rings.forEach(g => {
+      const k = g.t, c = colors[g.c] || '#E8358A';
+      ctx.globalAlpha = Math.max(0, .7*(1-k)); ctx.strokeStyle = c; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(g.x, g.y, g.r*(1+k*.9), 0, Math.PI*2); ctx.stroke();
+      ctx.fillStyle = c;
+      for(let i=0;i<7;i++){
+        const a = i/7*Math.PI*2 + g.r, d = g.r*(1+k*1.6);
+        ctx.beginPath(); ctx.arc(g.x + Math.cos(a)*d, g.y + Math.sin(a)*d, 2.4*(1-k)+.5, 0, Math.PI*2); ctx.fill();
+      }
+    });
+    ctx.globalAlpha = 1;
+  }
+  function tick(now){
+    if(!running) return;
+    const dt = Math.min(0.05, (now - (last || now))/1000); last = now;
+    bubbles.forEach(b => { b.y -= b.vy*dt; if(b.y < -b.r - 10) spawn(b, false); });
+    rings.forEach(g => g.t += dt*2.2); rings = rings.filter(g => g.t < 1);
+    draw();
+    requestAnimationFrame(tick);
+  }
+  function start(){ if(reduce || running || !visible) return; running = true; last = 0; requestAnimationFrame(tick); }
+  function stop(){ running = false; }
+  function hit(e){
+    const r = cv.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+    for(let i = bubbles.length-1; i >= 0; i--){ const b = bubbles[i]; if(Math.hypot(x-(b.dx ?? b.x), y-b.y) < b.r + 4) return b; }
+    return null;
+  }
+  cv.addEventListener('pointermove', e => { cv.style.cursor = hit(e) ? 'pointer' : 'default'; });
+  cv.addEventListener('pointerdown', e => {
+    const b = hit(e); if(!b) return;
+    if(!reduce) rings.push({x:b.dx ?? b.x, y:b.y, r:b.r, c:b.c, t:0});
+    spawn(b, false);
+    popped++;
+    hint.textContent = popped === 1 ? '1 bubble popped' : popped >= 25 ? popped + ' popped. okay, you’re hired' : popped >= 10 ? popped + ' popped. a natural' : popped + ' bubbles popped';
+    if(reduce) draw();
+  });
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(es => { visible = es[0].isIntersecting; visible ? start() : stop(); }).observe(hero);
+  }
+  if('ResizeObserver' in window){ new ResizeObserver(() => size()).observe(hero); } else { addEventListener('resize', size); }
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', readColors);
+  new MutationObserver(readColors).observe(document.documentElement, {attributes:true, attributeFilter:['data-theme']});
+  readColors(); size(); start();
+})();
+</script>
+
+</body>
+</html>
